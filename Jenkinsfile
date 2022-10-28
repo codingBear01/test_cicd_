@@ -31,14 +31,14 @@ pipeline{
             steps {
                 script{
                     try{
-                      // withAWS(
-                      // credentials:"${AWS_CREDENTIALS}", 
-                      // role: "test_cicd_jenkins", roleAccount: "347222812711", externalId:"externalId"
-                      // ){
+                      withAWS(
+                      credentials:"${AWS_CREDENTIALS}", 
+                      role: "arn:aws:iam::347222812711:user/test_cicd_jenkins", roleAccount: "347222812711", externalId:"externalId"
+                      ){
                         sh "aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${ECR_REPO_URI}"
                         sh "docker tag ${REPO_NAME}:latest ${ECR_REPO_URI}:latest"
                         sh "docker push ${ECR_REPO_URI}"
-                      // }
+                      }
                     }catch(error){
                         print(error)
                         currentBuild.result = 'FAILURE'
