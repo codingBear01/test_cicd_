@@ -1,5 +1,9 @@
 function App() {
-  return <div className="App">드디어 되는 건가...후후</div>;
+  return (
+    <div className="App">
+      집에서 도전합니다!! AdminAccess 권한을 지우고서~~~
+    </div>
+  );
 }
 
 export default App;
