@@ -72,7 +72,10 @@ pipeline {
             steps{
                 script{
                     try {                       
-                        withAWS(role: "${AWS_CREDENTIALS}", roleAccount: "347222812711", externalId:"externalId") {
+                        withAWS(
+                          credentialsId: "${AWS_CREDENTIALS}",
+                          role: "test_cicd_jenkins", 
+                          roleAccount: "347222812711", externalId:"externalId") {
                             sh "aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${ECR_REPO}"
                             sh "docker build -t ${ECR_REPO} ."
                             sh "docker tag ${ECR_REPO}:${env.BUILD_NUMBER}"
