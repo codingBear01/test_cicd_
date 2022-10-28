@@ -4,10 +4,11 @@ pipeline{
         skipStagesAfterUnstable()
     }
         environment {
-        ECR_REPO_URI = "347222812711.dkr.ecr.ap-northeast-2.amazonaws.com/test_cicd"
+        ECR_REPO_URI = "347222812711.dkr.ecr.${REGION}.amazonaws.com/test_cicd"
         AWS_CREDENTIALS="TEST_CICD_JENKINS"
         CLUSTER_NAME="cosmost-board-cluster"
         SERVICE_NAME="nginx-service"
+        REGION="ap-northeast-2"
     }
     stages {
         stage('Clone repository') { 
@@ -34,7 +35,7 @@ pipeline{
                 script{
                     sh 'rm  ~/.dockercfg || true'
                     sh 'rm ~/.docker/config.json || true'
-                    docker.withRegistry("https://${ECR_REPO_URI}", "ecr:ap-northeast-2:${AWS_CREDENTIALS}") {
+                    docker.withRegistry("https://${ECR_REPO_URI}", "ecr:${REGION}:${AWS_CREDENTIALS}") {
                     app.push("${env.BUILD_NUMBER}")
                     app.push("latest")
                     }
@@ -44,8 +45,8 @@ pipeline{
         stage('Deploy to ECS') {
           steps {
                 script {
-                    docker.withRegistry("https://${ECR_REPO_URI}", "ecr:ap-northeast-2:${AWS_CREDENTIALS}") {
-                      sh "aws ecs update-service --region ap-northeast-2 --cluster ${CLUSTER_NAME} --service ${SERVICE_NAME} --force-new-deployment"
+                    docker.withRegistry("https://${ECR_REPO_URI}", "ecr:${REGION}:${AWS_CREDENTIALS}") {
+                      sh "aws ecs update-service --region ${REGION} --cluster ${CLUSTER_NAME} --service ${SERVICE_NAME} --force-new-deployment"
                     }
                 }
             }
