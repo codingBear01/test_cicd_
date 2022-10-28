@@ -6,7 +6,7 @@ pipeline{
     }
     environment {
         ECR_REPO_URI = "347222812711.dkr.ecr.ap-northeast-2.amazonaws.com/test_cicd"
-        AWS_CREDENTIALS="ID_TEST_CICD_DEPLOY_USER"
+        AWS_CREDENTIALS="TEST_CICD_JENKINS"
         GIT_CREDENTIAL_ID = "fe_test_account"
         REPO_NAME = "test_cicd"
         GIT_URL="https://github.com/codingBear01/test_cicd_"
@@ -33,7 +33,7 @@ pipeline{
                     try{
                       withAWS(
                       credentials:"${AWS_CREDENTIALS}", 
-                      role: "arn:aws:iam::347222812711:user/test_cicd_deploy_user:role/jenkins-deploy-role", roleAccount: "347222812711", externalId:"externalId"
+                      role: "test_cicd_jenkins", roleAccount: "347222812711", externalId:"externalId"
                       ){
                         sh "aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${ECR_REPO_URI}"
                         sh "docker tag ${REPO_NAME}:latest ${ECR_REPO_URI}:latest"
