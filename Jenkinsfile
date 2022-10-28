@@ -7,7 +7,7 @@ pipeline{
         ECR_REPO_URI = "347222812711.dkr.ecr.${REGION}.amazonaws.com/test_cicd"
         AWS_CREDENTIALS="TEST_CICD_JENKINS"
         CLUSTER_NAME="cosmost"
-        SERVICE_NAME="nginx-service"
+        SERVICE_NAME="ecs-service"
         REGION="ap-northeast-2"
     }
     stages {
