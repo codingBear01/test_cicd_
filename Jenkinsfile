@@ -118,8 +118,8 @@ node {
           sh 'rm ~/.docker/config.json || true'
           
           docker.withRegistry("https://347222812711.dkr.ecr.ap-northeast-2.amazonaws.com/test_cicd", "ecr:ap-northeast-2:TEST_CICD_JENKINS") {
-          app.push("${env.BUILD_NUMBER}")
-          app.push("latest")
+          app.push()
+          // app.push("latest")
       }
   }
 }
