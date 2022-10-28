@@ -33,7 +33,7 @@ pipeline{
                     try{
                       withAWS(
                       credentials:"${AWS_CREDENTIALS}", 
-                      role: "arn:aws:iam::347222812711:user/test_cicd_deploy_user:role/jenkins-deploy-role", roleAccount: "test_cicd_deploy_user", externalId:"externalId"
+                      role: "arn:aws:iam::347222812711:user/test_cicd_deploy_user:role/jenkins-deploy-role", roleAccount: "347222812711", externalId:"externalId"
                       ){
                         sh "aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${ECR_REPO_URI}"
                         sh "docker tag ${REPO_NAME}:latest ${ECR_REPO_URI}:latest"
