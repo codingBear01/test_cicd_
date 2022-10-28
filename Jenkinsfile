@@ -98,28 +98,27 @@
 //     }
 // }
 
-node {
-      // agent any
-      // environment {
-      //   ECR_REPO_URI = "347222812711.dkr.ecr.ap-northeast-2.amazonaws.com/test_cicd"
-      //   AWS_CREDENTIALS="TEST_CICD_JENKINS"
-      // }
+pipeline {
+      agent any
+      environment {
+        ECR_REPO_URI = "347222812711.dkr.ecr.ap-northeast-2.amazonaws.com/test_cicd"
+        AWS_CREDENTIALS="TEST_CICD_JENKINS"
+      }
       stage('Clone repository') {
           checkout scm
       }
 
       stage('Build image') {
-          // app = docker.build("${ECR_REPO_URI}")
-          app = docker.build("347222812711.dkr.ecr.ap-northeast-2.amazonaws.com/test_cicd")
+          app = docker.build("${ECR_REPO_URI}")
       }
 
       stage('Push image') {
           sh 'rm  ~/.dockercfg || true'
           sh 'rm ~/.docker/config.json || true'
           
-          docker.withRegistry("https://347222812711.dkr.ecr.ap-northeast-2.amazonaws.com/test_cicd", "ecr:ap-northeast-2:TEST_CICD_JENKINS") {
-          app.push()
-          // app.push("latest")
+          docker.withRegistry("https://${ECR_REPO_URI}", "ecr:ap-northeast-2:${AWS_CREDENTIALS}") {
+          app.push(${env.BUILD_NUMBER})
+          app.push("latest")
       }
   }
 }
