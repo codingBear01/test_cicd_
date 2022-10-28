@@ -99,10 +99,11 @@
 // }
 
 node {
-      environment {
-        ECR_REPO_URI = "347222812711.dkr.ecr.ap-northeast-2.amazonaws.com/test_cicd"
-        AWS_CREDENTIALS="TEST_CICD_JENKINS"
-      }
+      // agent any
+      // environment {
+      //   ECR_REPO_URI = "347222812711.dkr.ecr.ap-northeast-2.amazonaws.com/test_cicd"
+      //   AWS_CREDENTIALS="TEST_CICD_JENKINS"
+      // }
       stage('Clone repository') {
           checkout scm
       }
@@ -116,7 +117,7 @@ node {
           sh 'rm  ~/.dockercfg || true'
           sh 'rm ~/.docker/config.json || true'
           
-          docker.withRegistry("https://${ECR_REPO_URI}", "ecr:ap-northeast-2:${AWS_CREDENTIALS}") {
+          docker.withRegistry("https://347222812711.dkr.ecr.ap-northeast-2.amazonaws.com/test_cicd", "ecr:ap-northeast-2:TEST_CICD_JENKINS") {
           app.push("${env.BUILD_NUMBER}")
           app.push("latest")
       }
