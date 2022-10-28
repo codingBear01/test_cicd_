@@ -45,7 +45,7 @@ pipeline{
           steps {
                 script {
                     docker.withRegistry("https://${ECR_REPO_URI}", "ecr:ap-northeast-2:${AWS_CREDENTIALS}") {
-                      sh "aws ecs update-service --cluster ${CLUSTER_NAME} --service ${SERVICE_NAME} --force-new-deployment"
+                      sh "aws ecs update-service --region ap-northeast-2 --cluster ${CLUSTER_NAME} --service ${SERVICE_NAME} --force-new-deployment"
                     }
                 }
             }
