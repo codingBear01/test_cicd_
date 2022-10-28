@@ -6,6 +6,8 @@ pipeline{
         environment {
         ECR_REPO_URI = "347222812711.dkr.ecr.ap-northeast-2.amazonaws.com/test_cicd"
         AWS_CREDENTIALS="TEST_CICD_JENKINS"
+        CLUSTER_NAME="cosmost-board-cluster"
+        SERVICE_NAME="nginx-service"
     }
     stages {
         stage('Clone repository') { 
@@ -41,8 +43,10 @@ pipeline{
         }
         stage('Deploy to ECS') {
           steps {
-            echo 'DEPLOY!'
-          }
+                script {
+                    sh "aws ecs update-service --cluster ${CLUSTER_NAME} --service ${SERVICE_NAME} --force-new-deployment"
+                }
+            }
         }
     }
 }
